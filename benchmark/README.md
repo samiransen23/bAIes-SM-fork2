@@ -1,5 +1,5 @@
 # bAIes-SM benchmark
-## Data to reproduce the bAIes model benchmark
+## Data to reproduce the bAIes benchmark
 
 Details about the systems used in our benchmark are
 reported in the table below. Instructions to install [GROMACS](https://www.gromacs.org) and [PLUMED](https://www.plumed.org)
