@@ -1,10 +1,10 @@
 #generate plumed action file
 ####
 # read index file in GROMACS format
-batoms: GROUP NDX_FILE=index.ndx NDX_GROUP=batoms
+batoms: GROUP NDX_FILE=../3-bAIes-setup/index.ndx NDX_GROUP=batoms
 
 # define action
-baies:   BAIES ATOMS=batoms DATA_FILE=logn.out PRIOR=JEFFREYS TEMP=2.478541306
+baies:   BAIES ATOMS=batoms DATA_FILE=../3-bAIes-setup/logn.out PRIOR=JEFFREYS TEMP=2.478541306
 
 PRINT ARG=baies.ene FILE=COLVAR STRIDE=500
 

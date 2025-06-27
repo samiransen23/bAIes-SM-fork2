@@ -60,7 +60,7 @@ We will now equilibrate the AF predicted structure in water as solvent with vani
 We use GROMACS as the MD software. 
 We create the topology of the AF model as:
 ```bash
-gmx_mpi pdb2gmx -f ../1-AF/relaxed*.pdb -ff amber99sb-ildn -water tip3p -ignh -posrefc 1000 -o temp.gro
+gmx_mpi pdb2gmx -f ../1-AF/out/relaxed.pdb -ff amber99sb-ildn -water tip3p -ignh -posrefc 1000 -o temp.gro
 ```
 Note that we use `gmx_mpi` for executing GROMACS because it is the MPI-enabled version, allowing for parallel execution across multiple processors.
 We recommend you to use the MPI version to handle these typically large systems which you may have already installed before starting the tutorial.
@@ -74,7 +74,7 @@ gmx_mpi editconf -f temp.gro -o temp_box.gro -c -d 1.0 -bt cubic
 #solvate
 gmx_mpi solvate -cp temp_box.gro -cs spc216.gro -o temp_solv.gro -p topol.top
 #ionise
-gmx_mpi grompp -f ions.mdp -c temp_solv.gro -p topol.top -o ions.tpr --maxwarn 1
+gmx_mpi grompp -f mdps/ions.mdp -c temp_solv.gro -p topol.top -o ions.tpr --maxwarn 1
 echo SOL| gmx_mpi genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral -conc 0.154
 #make index file
 echo "q"|gmx_mpi make_ndx -f solv_ions.gro -o index.ndx
@@ -158,17 +158,25 @@ The standard deviation of this fitted curve is then used as a quantitative measu
 </blockquote>
 <br>
 
+Let us back up the provided results:
+
+```bash
+cp logn.out bck.logn.out
+cp index.ndx bck.index.ndx
+```
+
 We will now extract these 3 pieces of information all at once by using the `../../scripts/preprocess.py` script as follows: 
 
 ```bash
 python3 ../../scripts/preprocess_AFdata.py \
             -pdb ../1-AF/relaxed.pdb \
-            -pkl ../1-AF/result.pkl \
+            -pkl ../1-AF/out/result.pkl \
             -mdpdb mdpdb.pdb \
             -out logn.out \
             -ndxout index.ndx \
             -model lognorm \
-            -nmodes 1
+            -nmodes 1 \
+            -cutoff matrix
 ```
 
 Note that we need to be careful here about the indexing of the atoms which are altered by GROMACS.
@@ -191,6 +199,9 @@ Example:
 3 24 86 -0.359068 0.174432
 4 24 108 -0.067064 0.074948
 5 39 108 -0.432000 0.102050
+6 50 132 -0.434579 0.090892
+7 67 143 -0.412576 0.126715
+8 86 165 -0.167598 0.316962
 ...
 ```
 Column 1: &nbsp;&nbsp; Field identity of selected pairwise residues  
@@ -204,7 +215,7 @@ Column 5: &nbsp;&nbsp; Standard deviation of fitted lognormal curve
 
 The output of this script (`logn.out` and `index.ndx`) is already provided to you.
 The latter file contains redundant information about the selected residues, but in a different format.
-It is the unique list of $C_β$ atoms (not atom pairs) belonging to the selected pairwise residues.
+It is the unique list of C_β atoms (not atom pairs) belonging to the selected pairwise residues.
 
 
 ## 3.2 bAIes production
@@ -213,7 +224,7 @@ Please go into the relevant directory for this step from the repository root:
 cd tutorials/3-bAIes-prod
 ```
 
-To run bAIes, you will need a PLUMED actions script that specifies how the $C_\beta-C_\beta$ distances should be incorporated.
+To run bAIes, you will need a PLUMED actions script that specifies how the C_\beta-C_\beta distances should be incorporated.
 We have provided this to you (`logn_jeff.dat`).
 <blockquote>
 
@@ -242,8 +253,9 @@ Line 4: Applies a biasing potential to the simulation based on the value of `bai
 <br>
 
 Starting from the MD equilibrated structure, we run bAIes for 5ns as follows:
+
 ```bash
-gmx_mpi grompp -f ../2-MD/mdps/md_nvt.mdp -c npt.gro -t ../2-MD/npt.cpt -p ../2-MD/topol.top -o md.tpr
+gmx_mpi grompp -f ../2-MD/mdps/md_nvt.mdp -c ../2-MD/npt.gro -t ../2-MD/npt.cpt -p ../2-MD/topol.top -o md.tpr
 gmx_mpi mdrun -nsteps 5000000 -pin on -ntomp $OMP_NUM_THREADS -plumed logn_jeff.dat --deffnm md
 ```
 Note that to execute the above, you will need the PLUMED-patch of GROMACS to be installed, which you may have already done before starting the tutorial. If not, you can find instructions [here](../install.md).  
@@ -265,14 +277,14 @@ We will need a structure file (we use `mdpdb.pdb`) and we will need the pocket s
 
 ```bash
 # Make index
-echo q|gmx_mpi make_ndx -f ../3-bAIes-select/mdpdb.pdb -o index.ndx
+echo q|gmx_mpi make_ndx -f ../3-bAIes-setup/mdpdb.pdb -o index.ndx
 
 # Make index group: Pocket
-pocket_string="protein and not name H* and chainID A and (resid 50 53 57 60 91 94 98 101 111 128 135 228 231 232 235)"
-python3 ../../scripts/make_ndx.py ../3-bAIes-select/mdpdb.pdb "${pocket_string}" Pocket --ndx index.ndx
+pocket_string="not type H and protein and chainID A and resid 50 53 54 56 57 60 90 91 94 95 97 98 101 111 125 128 131"
+python3 ../../scripts/make_ndx.py ../3-bAIes-setup/mdpdb.pdb "${pocket_string}" Pocket --ndx index.ndx
 
 # Make index group: protein
-python3  ../../scripts/make_ndx.py ../3-bAIes-select/mdpdb.pdb "protein" Protein_dock --ndx index.ndx
+python3  ../../scripts/make_ndx.py ../3-bAIes-setup/mdpdb.pdb "protein" Protein_dock --ndx index.ndx
 ```
 
 For this example, we choose a cutoff of 0.040 nm to ensure a balance between conformationally distinct and homogeneous model.
@@ -280,7 +292,8 @@ Note that a range of cutoffs is usually tested to find the correct balance. In o
 To perform the model selection, we cluster the trajectory as follows:
 
 ```bash
-echo "Pocket" ; echo "Protein_dock-H"; } | gmx_mpi cluster -f ../3-bAIes-prod/md.xtc -s ../3-bAIes-select/mdpdb.pdb -n index.ndx -g clusters/cluster.log \
+mkdir clusters
+( echo "Pocket"; echo "Protein_dock-H" ) | gmx_mpi cluster -f ../3-bAIes-prod/md.xtc -s ../3-bAIes-setup/mdpdb.pdb -n index.ndx -g clusters/cluster.log \
                 -dist clusters/rmsd-dist.xvg -sz "clusters/clust-size.xvg" -cl clusters/clusters.pdb -o clusters/rmsd-clust.xpm \
                 -cutoff 0.040 -method gromos -b 0 -e 5000
 ```
