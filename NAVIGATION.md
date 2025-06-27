@@ -46,6 +46,5 @@ flowchart TB;
 
   click A "refsyntax" "Basic features of the PLUMED input syntax with a particular focus on PBCs and selection tools";
   click B "install.md" "Installation instructions";
-  click C "tutorial/README.md" "Tutorial to use bAIes to refine protein targets for docking";
-  click D "tutorial/theory.pdf" "Theory on which the bAIes approach is developed";
+  click C "tutorial/README.md" "Tutorial to use bAIes to build refined protein targets for docking";
 ```
