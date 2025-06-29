@@ -34,19 +34,19 @@ periodic_molecules       = no
 ; a value of -1 means: use rlist
 verlet-buffer-tolerance  = 0.005 
 ; nblist cut-off
-rlist                    = 1.2
+rlist                    = 0.9
 
 ; OPTIONS FOR ELECTROSTATICS AND VDW
 ; Method for doing electrostatics
 coulombtype              = PME 
 rcoulomb-switch          = 0
-rcoulomb                 = 1.2
+rcoulomb                 = 0.9
 ; Method for doing Van der Waals
 vdw-type                 = Cut-off 
 vdw-modifier             = Force-switch 
 ; cut-off lengths
-rvdw-switch              = 1.0
-rvdw                     = 1.2
+rvdw-switch              = 0.8
+rvdw                     = 0.9
 ; Apply long range dispersion corrections for Energy and Pressure
 DispCorr                 = No
 ; Spacing for the PME/PPPM FFT grid
