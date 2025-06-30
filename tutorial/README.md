@@ -17,8 +17,8 @@ as well as the crystal structure of the hERα LBD bound to the selective antagon
 We focus on the DES-LBD-peptide complex.
 
 <div align="center">
-  <img src="3ERD.png" width="300">
-  <img src="3ERD_inset.png" width="300">
+  <img src="../3ERD.png" width="300">
+  <img src="../3ERD_inset.png" width="300">
   <div><em>The entire protein complex and a close-up view of the binding pocket showing the protein molecular bonds, with the native ligand inside it.</em></div>
 </div>
 
@@ -111,7 +111,7 @@ AF distograms are distance distributions between every pair of $C_\beta$ ($C_α$
 
 <blockquote>
 
-**More about how the distance confidence information is stored**
+**More about how the distance confidence information is stored**  
 
 `result.pkl` can be read as a Python dictionary. Its entry `distogram` comprises an array (`bin_edges`) specifying the edges of 64 equispaced distance bins (in Angstroms), 
 which define the possible pairwise C<sub>β</sub> atom distances of the protein residues (C<sub>α</sub> for Glycine) which range from $0.2$ to $2.2 \mathrm{nm}$.
@@ -194,7 +194,8 @@ echo "System"|gmx_mpi trjconv -f ../2-MD/temp.gro -s ../2-MD/temp.gro  -o ../2-M
 
 <blockquote>
 
-**File contents**
+**File contents**  
+
 Example: 
 
 ```txt
@@ -215,7 +216,6 @@ Column 2: &nbsp;&nbsp; Atom i of selected pair ij
 Column 3: &nbsp;&nbsp; Atom j of selected pair ij  
 Column 4: &nbsp;&nbsp; Logarithm of mean distance value of fitted lognormal curve  
 Column 5: &nbsp;&nbsp; Standard deviation of fitted lognormal curve
-</details>
 </blockquote>
 <br>
 
@@ -239,10 +239,10 @@ Example:
 
 ```plumed
 # 1:read index file
-batoms: GROUP NDX_FILE=index.ndx NDX_GROUP=batoms
+batoms: GROUP NDX_FILE=../3-bAIes-setup/index.ndx NDX_GROUP=batoms
 
 # 2:define action
-baies:   BAIES ATOMS=batoms DATA_FILE=logn.out PRIOR=JEFFREYS TEMP=2.478541306
+baies:   BAIES ATOMS=batoms DATA_FILE=../3-bAIes-setup/logn.out PRIOR=JEFFREYS TEMP=2.478541306
 
 # 3:log
 PRINT ARG=baies.ene FILE=COLVAR STRIDE=500

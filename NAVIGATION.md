@@ -45,7 +45,6 @@ The resources that are connected by dashed lines are supplementary resources tha
 flowchart TB;
   A[PLUMED syntax] -.-> C[Tutorial];
   B[Installation] ==> C;
-  D[Theory] -.-> C;
 
   click A "refsyntax" "Basic features of the PLUMED input syntax with a particular focus on PBCs and selection tools";
   click B "install.md" "Installation instructions";
