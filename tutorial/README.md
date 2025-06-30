@@ -107,25 +107,24 @@ cd tutorials/3-bAIes-setup
 ```
 bAIes uses Bayesian inference to perform MD with the knowledge of AF-predicted local distance confidence. For this, bAIes needs to have a direct on-the-fly communication with
 the distance confidence information that is available in `../1-AF/result.pkl`.
-AF distograms are distance distributions between every pair of $C_\beta$ ($C_α$ for glycine) atoms.
+AF distograms are distance distributions between every pair of C_β  (C_α for glycine) atoms.
 
 <blockquote>
 
-**More about how the distance confidence information is stored**  
+More about how the distance confidence information is stored:  
 
 `result.pkl` can be read as a Python dictionary. Its entry `distogram` comprises an array (`bin_edges`) specifying the edges of 64 equispaced distance bins (in Angstroms), 
-which define the possible pairwise C<sub>β</sub> atom distances of the protein residues (C<sub>α</sub> for Glycine) which range from $0.2$ to $2.2 \mathrm{nm}$.
+which define the possible pairwise C<sub>β</sub> atom distances of the protein residues (C<sub>α</sub> for Glycine) which range from 0.2 to 2.2 nm.
 
-Corresponding to these bin edges, there is an array (`logits`) specifying the probability (in a raw output form) of observing each such distance. In summary:
+Corresponding to these bin edges, there is an array (`logits`) specifying the probability (in a raw output form) of observing each such distance. In summary:  
 
-```python
-result.pkl: {
-    'distogram': {
-        'bin_edges': (64,),
-        'logits':    (N_residues, N_residues, 64,),
-    }
-}
-```
+result.pkl: {  
+    &nbsp;&nbsp;  'distogram': {  
+    &nbsp;&nbsp;&nbsp;&nbsp;    'bin_edges': (64,),  
+    &nbsp;&nbsp;&nbsp;&nbsp;    'logits':    (N_residues, N_residues, 64,),      
+    &nbsp;&nbsp;}  
+}  
+
 </blockquote>
 <br>
 
@@ -226,7 +225,7 @@ Please go into the relevant directory for this step from the repository root:
 cd tutorials/3-bAIes-prod
 ```
 
-To run bAIes, you will need a PLUMED actions script that specifies how the C_\beta-C_\beta distances should be incorporated.
+To run bAIes, you will need a PLUMED actions script that specifies how the C_β-C_β distances should be incorporated.
 We have provided this to you (`logn_jeff.dat`).
 <blockquote>
 
@@ -238,7 +237,7 @@ Example:
 batoms: GROUP NDX_FILE=3-bAIes-setup/index.ndx NDX_GROUP=batoms
 
 # 2:define action
-baies:   BAIES ATOMS=batoms DATA_FILE=3-bAIes-setup/logn.out PRIOR=JEFFREYS TEMP=2.478541306
+baies: BAIES ATOMS=batoms DATA_FILE=3-bAIes-setup/logn.out PRIOR=JEFFREYS TEMP=2.478541306
 
 # 3:log
 PRINT ARG=baies.ene FILE=COLVAR STRIDE=500
