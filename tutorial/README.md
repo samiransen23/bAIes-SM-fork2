@@ -16,6 +16,12 @@ This system comprises the ligand-binding domain (LBD) of the receptor (herα) in
 as well as the crystal structure of the hERα LBD bound to the selective antagonist 4-hydroxytamoxifen (OHT).  
 We focus on the DES-LBD-peptide complex.
 
+<div align="center">
+  <img src="3ERD.png" width="300">
+  <img src="3ERD_inset.png" width="300">
+  <div><em>The entire protein complex and a close-up view of the binding pocket showing the protein molecular bonds, with the native ligand inside it.</em></div>
+</div>
+
 ## 1 AF
 Please go into the relevant directory for this step from the repository root:
 ```bash

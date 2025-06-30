@@ -7,7 +7,8 @@ The aim of this tutorial is to learn how to use Bayesian inference through PLUME
 This tutorial uses the bAIes approach that is founded on the principles of Bayesian inference. It combines the local strucural uncertainties in AlphaFold (AF) predictions with state-of-the-art
 molecular mechanics force fields to optimally improve the physico-chemical properties of the system. A more detailed theory is described in the following publication:
 
-S. Sen, S. E. Hoff, T. Morozova, V. Schnapka, M. Bonomi. Advancing in silico drug design with Bayesian refinement of AlphaFold models. [doi]
+[S. Sen, S. E. Hoff, T. Morozova, V. Schnapka, M. Bonomi. Advancing in silico drug design with Bayesian refinement of AlphaFold models.](https://doi.org/10.1101/2025.06.25.661454
+)
 
 ## Installation
 Installation instructions of the software to perform bAIes simulations in this tutorial can be found [here](install.md).
@@ -24,9 +25,11 @@ This system comprises the ligand-binding domain (LBD) of the receptor (herα) in
 as well as the crystal structure of the hERα LBD bound to the selective antagonist 4-hydroxytamoxifen (OHT).  
 We focus on the DES-LBD-peptide complex.
 
-<p align="center">
-  <img src="tau.png" width="400">
-</p>
+<div align="center">
+  <img src="3ERD.png" width="300">
+  <img src="3ERD_inset.png" width="300">
+  <div><em>The entire protein complex and a close-up view of the binding pocket showing the protein molecular bonds, with the native ligand inside it.</em></div>
+</div>
 
 The tutorial starts from the protein sequence, and takes you through the AlphaFold structure prediction, followed by Bayesian structural refinement by bAIes.
 After this, an optimal model is selected as a refined docking target from an ensemble of bAIes models.  
