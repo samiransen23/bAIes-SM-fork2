@@ -33,13 +33,13 @@ We focus on the DES-LBD-peptide complex.
 
 The tutorial starts from the protein sequence, and takes you through the AlphaFold structure prediction, followed by Bayesian structural refinement by bAIes.
 After this, an optimal model is selected as a refined docking target from an ensemble of bAIes models.  
-The tutorial can be accessed [here](https://github.com/COSBlab/bAIes-SM/tree/main/tutorial).
 
 ## Flowchart
 The flow chart shown below indicates the order in which you should consult the resources.
 You can click on the nodes to access the various resources.
 Follow the thick black lines for the best results.
 The resources that are connected by dashed lines are supplementary resources that you may find useful during the exercise.  
+(The tutorial can be accessed [here](https://github.com/COSBlab/bAIes-SM/tree/main/tutorial).)
 
 ```mermaid
 flowchart TB;

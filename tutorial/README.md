@@ -192,11 +192,8 @@ The mapping is provided to the preprocessing script by a GROMACS format pdb (`md
 echo "System"|gmx_mpi trjconv -f ../2-MD/temp.gro -s ../2-MD/temp.gro  -o ../2-MD/mdpdb.pdb
 ```
 
-<blockquote>
 
-**File contents**  
-
-Example: 
+File contents example: 
 
 ```txt
 #! FIELDS Id atom_i atom_j mu sigma
@@ -216,7 +213,6 @@ Column 2: &nbsp;&nbsp; Atom i of selected pair ij
 Column 3: &nbsp;&nbsp; Atom j of selected pair ij  
 Column 4: &nbsp;&nbsp; Logarithm of mean distance value of fitted lognormal curve  
 Column 5: &nbsp;&nbsp; Standard deviation of fitted lognormal curve
-</blockquote>
 <br>
 
 The output of this script (`logn.out` and `index.ndx`) is already provided to you.
@@ -239,10 +235,10 @@ Example:
 
 ```plumed
 # 1:read index file
-batoms: GROUP NDX_FILE=../3-bAIes-setup/index.ndx NDX_GROUP=batoms
+batoms: GROUP NDX_FILE=3-bAIes-setup/index.ndx NDX_GROUP=batoms
 
 # 2:define action
-baies:   BAIES ATOMS=batoms DATA_FILE=../3-bAIes-setup/logn.out PRIOR=JEFFREYS TEMP=2.478541306
+baies:   BAIES ATOMS=batoms DATA_FILE=3-bAIes-setup/logn.out PRIOR=JEFFREYS TEMP=2.478541306
 
 # 3:log
 PRINT ARG=baies.ene FILE=COLVAR STRIDE=500
